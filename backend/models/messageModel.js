@@ -15,4 +15,6 @@ const messageModel = mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports.Message = mongoose.model("Message", messageModel)
+const Message = mongoose.model("Message", messageModel)
+module.exports = Message
+    

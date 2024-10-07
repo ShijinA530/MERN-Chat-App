@@ -156,3 +156,18 @@ module.exports.removeFromGroup = expressAsyncHandler(async (req, res) => {
 
     res.status(200).json(removed);
 })
+
+
+
+
+
+// module.exports.deleteChat = expressAsyncHandler(async (req, res) => {
+//     const { id } = req.params
+
+//     try{
+//         const chat = await Chat.findOneAndDelete({_id: id})
+//         res.status(200).json(chat)
+//     } catch(err){
+//         res.status(400).json({ error: 'No such workout'})
+//     }
+// })

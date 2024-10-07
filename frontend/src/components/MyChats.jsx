@@ -10,7 +10,6 @@ import GroupChatModal from './miscellanious/GroupChatModal';
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState()
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
-   
   const toast = useToast()
 
   const fetchChats = async () => {
@@ -23,9 +22,6 @@ const MyChats = ({ fetchAgain }) => {
 
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat`, config)
       setChats(data)
-
-
-
     } catch (error) {
       toast({
         title: 'Error Occured!',
@@ -39,9 +35,10 @@ const MyChats = ({ fetchAgain }) => {
   }
 
   useEffect(() => {
-    setLoggedUser(JSON.parse(localStorage.getItem('userInfo')))
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    setLoggedUser(userInfo)
     fetchChats()
-  },[fetchAgain])
+  }, [fetchAgain])
 
   return (
     <Box
@@ -71,7 +68,7 @@ const MyChats = ({ fetchAgain }) => {
             fontSize={{ base: '17px', md: '10px', lg: '17px' }}
             rightIcon={<AddIcon />}
           >
-          New Group Chat
+            New Group Chat
           </Button>
         </GroupChatModal>
       </Box>  
@@ -81,33 +78,38 @@ const MyChats = ({ fetchAgain }) => {
         flexDir={'column'}
         p={3}
         bg={'#F8F8F8'}
-      w='100%'
+        w='100%'
         h='100%'
         borderRadius='lg'
         overflowY='hidden'
       >
         {chats ? (
           <Stack>
-            {chats.map((chat) => (
+            {chats.map((chat) => {
+              console.log(chat);
+              
+            return (
               <Box
                 onClick={() => setSelectedChat(chat)}
-                cursor='pointer'
+                cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
-                borderRadius='lg'
+                borderRadius="lg"
                 key={chat._id}
               >
                 <Text>
-                  {chat.isGroupChat ? chat.chatName : (
-                    getSender(loggedUser, chat.users)
-                  )}
+                  {!chat.isGroupChat
+                    ? getSender(loggedUser, chat.users) || "Unknown"
+                    : chat.chatName}
                 </Text>
               </Box>
-            ))}
-          </Stack>
-        ) : <ChatLoading/>}
+            );
+          })}
+        </Stack>
+        
+        ) : <ChatLoading />}
       </Box>
     </Box>
   )

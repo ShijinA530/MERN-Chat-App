@@ -11,10 +11,9 @@ const Home = () => {
   const { setUser } = ChatState()
   
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    setUser(user)
+    const user = JSON.parse(localStorage.getItem('userInfo'))
 
-    if (!user) {
+    if (user) {
         navigate('/chats')
     }
   }, [navigate])
