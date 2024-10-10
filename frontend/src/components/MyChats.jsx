@@ -86,8 +86,6 @@ const MyChats = ({ fetchAgain }) => {
         {chats ? (
           <Stack>
             {chats.map((chat) => {
-              console.log(chat);
-              
             return (
               <Box
                 onClick={() => setSelectedChat(chat)}
